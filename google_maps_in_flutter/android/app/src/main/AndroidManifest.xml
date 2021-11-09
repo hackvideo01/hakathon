@@ -1,15 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.hakathon">
-
+    package="com.example.google_maps_in_flutter">
    <application
-        android:label="hakathon"
+        android:label="google_maps_in_flutter"
         android:icon="@mipmap/ic_launcher">
-
-       <!-- TODO: Add your Google Maps API key here -->
-       <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyBqVs5DU4Nm_m7wDBK894Bui6-mfmQ2xbo"/>
-
-       <activity
+        <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
