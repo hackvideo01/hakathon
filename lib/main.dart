@@ -15,14 +15,14 @@ class MyApp extends StatelessWidget {
       home: DefaultTabController(
         length: 6,
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: Text(
-              'MishimaWalk',
-              style: TextStyle(color: Colors.black),
-            ),
-            centerTitle: true,
-          ),
+          // appBar: AppBar(
+          //   backgroundColor: Colors.white,
+          //   title: Text(
+          //     'MishimaWalk',
+          //     style: TextStyle(color: Colors.black),
+          //   ),
+          //   centerTitle: true,
+          // ),
           bottomNavigationBar: menu(),
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
