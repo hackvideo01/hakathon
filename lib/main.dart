@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
           ),
           bottomNavigationBar: menu(),
           body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               new homeTab(),
               new timeLine(),
