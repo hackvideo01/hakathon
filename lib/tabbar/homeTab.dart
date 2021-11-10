@@ -25,9 +25,7 @@ class homeTab extends StatelessWidget{
     return Column(
         children: <Widget>[
           Expanded(
-              new Column(
-
-              ),
+              child: _txtwalk,
           ),
           // Container(
           //     height: 40,
