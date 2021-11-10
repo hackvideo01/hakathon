@@ -3,8 +3,9 @@ import 'tabbar/homeTab.dart';
 import 'tabbar/myPage.dart';
 import 'tabbar/quest.dart';
 import 'tabbar/timeLine.dart';
-import 'tabbar/ranking.dart';
+// import 'tabbar/ranking.dart';
 import 'tabbar/payment.dart';
+import 'ranking/ranking.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,11 +26,15 @@ class MyApp extends StatelessWidget {
           ),
           bottomNavigationBar: menu(),
           body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               new homeTab(),
               new timeLine(),
               new quest(),
-              new ranking(),
+              // new ranking(),
+              new RankingProduct(
+                title: "ranking",
+              ),
               new payment(),
               new myPage(),
             ],
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
         indicatorSize: TabBarIndicatorSize.tab,
         indicatorPadding: EdgeInsets.all(5.0),
         indicatorColor: Colors.blue,
-        labelStyle: TextStyle(fontSize: 5.5,fontFamily: 'Family Name'),
+        labelStyle: TextStyle(fontSize: 5.5, fontFamily: 'Family Name'),
         tabs: [
           Tab(
             text: "ホーム",
@@ -60,15 +65,15 @@ class MyApp extends StatelessWidget {
           ),
           Tab(
             text: "クエスト",
-            icon: Icon(Icons.map_outlined ),
+            icon: Icon(Icons.map_outlined),
           ),
           Tab(
             text: "ランキング",
-            icon: Icon(Icons.search ),
+            icon: Icon(Icons.search),
           ),
           Tab(
             text: "支払い",
-            icon: Icon(Icons.receipt ),
+            icon: Icon(Icons.receipt),
           ),
           Tab(
             text: "マイページ",
@@ -77,4 +82,5 @@ class MyApp extends StatelessWidget {
         ],
       ),
     );
-  } }
+  }
+}
