@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       home: DefaultTabController(
         length: 6,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           // appBar: AppBar(
           //   backgroundColor: Colors.white,
           //   title: Text(

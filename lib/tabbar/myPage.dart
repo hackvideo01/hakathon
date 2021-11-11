@@ -18,13 +18,18 @@ class _myPage extends State<myPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'MishimaWalk支払い',
+          'マイページ',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
       ),
       body:Center(
-        child: Image.asset('images/login-image.png'),
+        child: new Image.asset('images/login-image.png',
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,
+          alignment: Alignment.center,
+        ),
       ),
       // new Column(children: <Widget>[
       //   Expanded(
