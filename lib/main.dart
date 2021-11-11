@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hakathon/tabbar/ranking.dart';
 import 'tabbar/homeTab.dart';
 import 'tabbar/myPage.dart';
 import 'tabbar/quest.dart';
 import 'tabbar/timeLine.dart';
-// import 'tabbar/ranking.dart';
-import 'tabbar/payment.dart';
 import 'ranking/ranking.dart';
+import 'tabbar/payment.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,14 +16,14 @@ class MyApp extends StatelessWidget {
       home: DefaultTabController(
         length: 6,
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: Text(
-              'MishimaWalk',
-              style: TextStyle(color: Colors.black),
-            ),
-            centerTitle: true,
-          ),
+          // appBar: AppBar(
+          //   backgroundColor: Colors.white,
+          //   title: Text(
+          //     'MishimaWalk',
+          //     style: TextStyle(color: Colors.black),
+          //   ),
+          //   centerTitle: true,
+          // ),
           bottomNavigationBar: menu(),
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
@@ -31,10 +31,7 @@ class MyApp extends StatelessWidget {
               new homeTab(),
               new timeLine(),
               new quest(),
-              // new ranking(),
-              new RankingProduct(
-                title: "ranking",
-              ),
+              new RankingRankings(title: "ranking"),
               new payment(),
               new myPage(),
             ],
