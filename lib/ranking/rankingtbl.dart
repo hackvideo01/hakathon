@@ -26,8 +26,6 @@ class Rankings {
   }
 }
 
-class sqlhelper {}
-
 void sqlite() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = openDatabase(

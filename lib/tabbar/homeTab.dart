@@ -62,6 +62,7 @@ class _homeTab extends State<homeTab> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
+
   bool _flag = true;
   final Geolocator _geolocator = Geolocator();
 // For storing the current position
@@ -78,7 +79,7 @@ class _homeTab extends State<homeTab> {
         _currentPosition = position;
 
         print('CURRENT POS: $_currentPosition');
-        _kMapCenter1 = LatLng(position.latitude,position.longitude);
+        _kMapCenter1 = LatLng(position.latitude, position.longitude);
         // For moving the camera to current location
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
@@ -102,6 +103,7 @@ class _homeTab extends State<homeTab> {
       ),
     };
   }
+
   String _startAddress = '';
   String _destinationAddress = '';
   String? _placeDistance;
@@ -172,7 +174,7 @@ class _homeTab extends State<homeTab> {
 
       setState(() {
         _currentAddress =
-        "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
+            "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
         startAddressController.text = _currentAddress;
         _startAddress = _currentAddress;
       });
@@ -180,13 +182,14 @@ class _homeTab extends State<homeTab> {
       print(e);
     }
   }
+
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
       // Retrieving placemarks from addresses
       List<Location> startPlacemark = await locationFromAddress(_startAddress);
       List<Location> destinationPlacemark =
-      await locationFromAddress(_destinationAddress);
+          await locationFromAddress(_destinationAddress);
 
       // Use the retrieved coordinates of the current position,
       // instead of the address if the start position is user's
@@ -322,11 +325,11 @@ class _homeTab extends State<homeTab> {
 
   // Create the polylines for showing the route between two places
   _createPolylines(
-      double startLatitude,
-      double startLongitude,
-      double destinationLatitude,
-      double destinationLongitude,
-      ) async {
+    double startLatitude,
+    double startLongitude,
+    double destinationLatitude,
+    double destinationLongitude,
+  ) async {
     polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       "AIzaSyBqVs5DU4Nm_m7wDBK894Bui6-mfmQ2xbo", // Google Maps API Key
@@ -350,6 +353,7 @@ class _homeTab extends State<homeTab> {
     );
     polylines[id] = polyline;
   }
+
   @override
   void initState() {
     super.initState();
@@ -435,15 +439,14 @@ class _homeTab extends State<homeTab> {
           //   child: new Icon(Icons.my_location_rounded),
           // ),
           Expanded(
-            flex: 9,
-            child:FlatButton(
-              child: new Text("現在地"),
-              color: Colors.green,
-              onPressed: () {
-                _getCurrentLocation();
-              },
-            )
-          ),
+              flex: 9,
+              child: FlatButton(
+                child: new Text("現在地"),
+                color: Colors.green,
+                onPressed: () {
+                  _getCurrentLocation();
+                },
+              )),
         ],
       ),
     );
@@ -458,8 +461,7 @@ class _homeTab extends State<homeTab> {
           ),
           Expanded(
             flex: 9,
-            child:
-            _textField(
+            child: _textField(
                 label: '目的地未設定',
                 hint: 'Choose destination',
                 // prefixIcon: Icon(Icons.looks_two),
@@ -557,97 +559,97 @@ class _homeTab extends State<homeTab> {
       ),
     );
     return Container(
-    child: new Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'MishimaWalk',
-          style: TextStyle(color: Colors.black),
+      child: new Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            'MishimaWalk',
+            style: TextStyle(color: Colors.black),
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: new Column(children: <Widget>[
-        Expanded(
-          child: Column(
-            children: <Widget>[
-              _DayMonth,
-              walkPint,
-              new Container(
-                child: CurentLocation,
-              ),
-              Transfer,
-              new Container(
-                // margin: new EdgeInsets.only(left: 20.0, right: 20.0,top: 5.0),
-                // decoration: new BoxDecoration(
-                //     color: new Color.fromARGB(255, 240, 240, 240),
-                //     border: new Border.all(width: 1.2,color: Colors.black12),
-                //     borderRadius: const BorderRadius.all(const Radius.circular(10.0))
-                // ),
-                child: TargetLocation,
-              ),
-              Rout,
-              Condition,
-              new Container(
-                margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 2.0),
-                child: new Row(
-                  children: <Widget>[
-                    new Expanded(
-                      child: new ElevatedButton(
-                        onPressed: () {
-                          _getAddress();
-                        },
-                        child: Text("ルート検索"),
-                        // child: new Text( _currentAddress),
-                        style: ElevatedButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
+        body: new Column(children: <Widget>[
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                _DayMonth,
+                walkPint,
+                new Container(
+                  child: CurentLocation,
+                ),
+                Transfer,
+                new Container(
+                  // margin: new EdgeInsets.only(left: 20.0, right: 20.0,top: 5.0),
+                  // decoration: new BoxDecoration(
+                  //     color: new Color.fromARGB(255, 240, 240, 240),
+                  //     border: new Border.all(width: 1.2,color: Colors.black12),
+                  //     borderRadius: const BorderRadius.all(const Radius.circular(10.0))
+                  // ),
+                  child: TargetLocation,
+                ),
+                Rout,
+                Condition,
+                new Container(
+                  margin:
+                      new EdgeInsets.only(left: 20.0, right: 20.0, top: 2.0),
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ElevatedButton(
+                          onPressed: () {
+                            _getAddress();
+                          },
+                          child: Text("ルート検索"),
+                          // child: new Text( _currentAddress),
+                          style: ElevatedButton.styleFrom(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            primary: _flag
+                                ? Colors.red
+                                : Color(0x0C547B), // This is what you need!
                           ),
-                          primary: _flag
-                              ? Colors.red
-                              : Color(0x0C547B), // This is what you need!
                         ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Container(
+          //     height: 40,
+          //     color: Colors.grey
+          // ),
+          Expanded(
+            child: Container(
+              height: height,
+              width: width,
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: Stack(
+                  children: <Widget>[
+                    GoogleMap(
+                      markers: _createMarker(),
+                      onMapCreated: _onMapCreated,
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: false,
+                      zoomGesturesEnabled: true,
+                      zoomControlsEnabled: false,
+                      polylines: Set<Polyline>.of(polylines.values),
+                      initialCameraPosition: CameraPosition(
+                        target: _center,
+                        zoom: 18.0,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-        // Container(
-        //     height: 40,
-        //     color: Colors.grey
-        // ),
-        Expanded(
-          child: Container(
-            height: height,
-            width: width,
-            child:
-            Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: Stack(
-                children: <Widget>[
-                  GoogleMap(
-                    markers: _createMarker(),
-                    onMapCreated: _onMapCreated,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                    zoomGesturesEnabled: true,
-                    zoomControlsEnabled: false,
-                    polylines: Set<Polyline>.of(polylines.values),
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 18.0,
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
-        ),
-      ]),
-    ),
+        ]),
+      ),
     );
   }
 }

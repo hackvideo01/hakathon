@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,26 +17,26 @@ class timeLine extends StatefulWidget {
 class _timeLine extends State<timeLine> {
   Position _location = Position(latitude: 0.0, longitude: 0.0);
 
-  void _displayCurrentLocation() async{
-    final location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  void _displayCurrentLocation() async {
+    final location = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
       _location = location;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Widget kupont = new Container(
       alignment: Alignment.topLeft,
       margin: new EdgeInsets.only(top: 10.0),
-      child:
-      Text("クーポン", style: TextStyle(fontWeight: FontWeight.bold)),
+      child: Text("クーポン", style: TextStyle(fontWeight: FontWeight.bold)),
     );
     Widget point = new Container(
       alignment: Alignment.topLeft,
       margin: new EdgeInsets.only(top: 10.0),
-      child:
-      Text("ポイント", style: TextStyle(fontWeight: FontWeight.bold)),
+      child: Text("ポイント", style: TextStyle(fontWeight: FontWeight.bold)),
     );
     // Widget link = new InkWell(
     //     child: new Text('https://mishimawalk/image21/〜'),
@@ -44,19 +45,21 @@ class _timeLine extends State<timeLine> {
     Widget details = new Container(
       alignment: Alignment.topLeft,
       margin: new EdgeInsets.only(top: 10.0),
-      child:new Row(
+      child: new Row(
         children: <Widget>[
           Expanded(
             flex: 3,
-            child:new Text("詳しいはこちら->", style: TextStyle(fontWeight: FontWeight.bold)),
+            child: new Text("詳しいはこちら->",
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           Expanded(
             flex: 4,
-            child:Text("htpps://mishimashi"),
+            child: Text("htpps://mishimashi"),
           ),
           Expanded(
             flex: 3,
-            child:new Text("...", style: TextStyle(fontWeight: FontWeight.bold)),
+            child:
+                new Text("...", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -75,7 +78,7 @@ class _timeLine extends State<timeLine> {
           new Container(
             child: new Column(
               children: [
-                 kupont,
+                kupont,
                 // FlatButton(
                 //   child: new Text("${_location.latitude}, ${_location.longitude}"),
                 //   color: Colors.green,
