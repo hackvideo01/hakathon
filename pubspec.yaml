@@ -56,12 +56,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # // fire base
 
   flutter_lints: ^1.0.01
 
 flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
+
   assets:
   #   - assets/locations.json
     - images/

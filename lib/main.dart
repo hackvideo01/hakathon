@@ -8,6 +8,10 @@ import 'ranking/ranking.dart';
 import 'tabbar/payment.dart';
 
 void main() => runApp(MyApp());
+// Future<void> main() async {
+//   // WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+// }
 
 class MyApp extends StatelessWidget {
   @override
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
               new homeTab(),
               new timeLine(),
               new quest(),
-              new RankingRankings(title: "ranking"),
+              new RankingRankings(title: "MishimaWalk"),
               new payment(),
               new myPage(),
             ],
