@@ -51,8 +51,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # // fire base
 
- 
   flutter_lints: ^1.0.0
  
 flutter:

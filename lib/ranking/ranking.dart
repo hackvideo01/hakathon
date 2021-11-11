@@ -1,18 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hakathon/ranking/rankingtbl.dart';
+import 'package:hakathon/db/database_helper.dart';
 
+List<Rankings> items = <Rankings>[];
 List<Rankings> getRankings() {
-  List<Rankings> items = <Rankings>[];
-
   items.add(Rankings("三谷様", "すごい！！！", 2000, "shop_icon.png"));
   items.add(Rankings("ルック様", "頑張る", 2500, "shop_icon.png"));
   items.add(Rankings("池田様", "お疲れ様です。", 1000, "shop_icon.png"));
   items.add(Rankings("林様", "ファイア", 900, "shop_icon.png"));
   items.add(Rankings("山田様", "いい天気ですね", 200, "shop_icon.png"));
   items.add(Rankings("樋高田様", "焼肉を食べたい", 150, "shop_icon.png"));
+
   items.sort((a, b) => b.point.compareTo(a.point));
   return items;
+}
+
+void _refreshJournals() async {
+  final allRankings = await SQLHelper.getRankings();
+  // items.addAll(allRankings);
 }
 
 class RatingBox extends StatefulWidget {
