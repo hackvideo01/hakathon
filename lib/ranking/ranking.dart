@@ -208,6 +208,8 @@ class RankingsBox extends StatelessWidget {
   }
 }
 
+TextEditingController controller = new TextEditingController();
+
 class RankingRankings extends StatelessWidget {
   RankingRankings({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -215,26 +217,76 @@ class RankingRankings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("ranking")),
-        body: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              child: RankingsBox(item: items[index], index: index + 1),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RankingPage(item: items[index]),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'MishimaWalk',
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+      ),
+      body: new Column(
+        children: <Widget>[
+          new Container(
+            color: Theme.of(context).primaryColor,
+            child: new Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: new Card(
+                child: new ListTile(
+                  leading: new Icon(Icons.search),
+                  title: new TextField(
+                    controller: controller,
+                    decoration: new InputDecoration(
+                        hintText: 'Search', border: InputBorder.none),
+                    // onChanged: onSearchTextChanged,
                   ),
-                );
-              },
-            );
-          },
-        ));
+                  trailing: new IconButton(
+                    icon: new Icon(Icons.cancel),
+                    onPressed: () {
+                      controller.clear();
+                      // onSearchTextChanged('');
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          new Expanded(
+              child: ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                child: RankingsBox(item: items[index], index: index + 1),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RankingPage(item: items[index]),
+                    ),
+                  );
+                },
+              );
+            },
+          ))
+        ],
+      ),
+    );
   }
 }
+// onSearchTextChanged(String text) async {
+//     _searchResult.clear();
+//     if (text.isEmpty) {
+//       setState(() {});
+//       return;
+//     }
 
+//     _userDetails.forEach((userDetail) {
+//       if (userDetail.firstName.contains(text) ||
+//           userDetail.lastName.contains(text)) _searchResult.add(userDetail);
+//     });
+
+//     setState(() {});
+//   }
 class RankingPage extends StatelessWidget {
   RankingPage({Key? key, required this.item}) : super(key: key);
   final Rankings item;
