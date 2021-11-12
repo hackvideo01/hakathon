@@ -16,12 +16,6 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
-<<<<<<< HEAD
+
 </resources>
-=======
-    <string name="app_name">Navigation map</string>
-    <string name="mapbox_access_token" translatable="false">ADD_MAPBOX_ACCESS_TOKEN_HERE</string>
-    <string name="user_location_permission_explanation">This app needs location permissions to show its functionality.</string>
-    <string name="user_location_permission_not_granted">You didn\'t grant location permissions.</string>
-</resources>
->>>>>>> 0473ed0ff91a8933332cfa32a822d6d6bf18418e
+
