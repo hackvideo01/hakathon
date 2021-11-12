@@ -41,6 +41,7 @@ dependencies:
   address_search_field: ^4.0.1
 
   intl: ^0.17.0
+  syncfusion_flutter_gauges: ^19.3.48
 
   flutter_localizations:
     sdk: flutter
@@ -57,6 +58,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # // fire base
 
   flutter_lints: ^1.0.01
   flutter_native_splash: ^1.3.1
@@ -76,6 +78,7 @@ flutter_icons:
 flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
+
   assets:
   #   - assets/locations.json
     - images/

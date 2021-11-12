@@ -20,19 +20,19 @@ class homeTab extends StatefulWidget {
 
 class _homeTab extends State<homeTab> {
   String DayMonth =
-      new DateFormat('MM/dd ( E )', 'en_US').format(DateTime.now());
+  new DateFormat('MM/dd ( E )', 'en_US').format(DateTime.now());
   final margin = const EdgeInsets.only(bottom: 10.0, right: 10.0, left: 10.0);
 
   final TextField _txtwalk = new TextField(
     decoration: new InputDecoration(
-        // hintText: "徒歩"
-        ),
+      // hintText: "徒歩"
+    ),
   );
 
   final TextField _txtwalkPoint = new TextField(
     decoration: new InputDecoration(
-        // hintText: "Pt"
-        ),
+      // hintText: "Pt"
+    ),
   );
 
   final TextField _txtTargetLocation = new TextField(
@@ -422,7 +422,7 @@ class _homeTab extends State<homeTab> {
     Widget _DayMonth = new Container(
       alignment: Alignment.topLeft,
       child:
-          Text(DayMonth + "の徒歩", style: TextStyle(fontWeight: FontWeight.bold)),
+      Text(DayMonth + "の徒歩", style: TextStyle(fontWeight: FontWeight.bold)),
     );
     Widget walkPint = new Container(
       child: new Row(
@@ -431,7 +431,7 @@ class _homeTab extends State<homeTab> {
           Expanded(
               flex: 1,
               child:
-                  new Text("km", style: TextStyle(fontWeight: FontWeight.bold))),
+              new Text("km", style: TextStyle(fontWeight: FontWeight.bold))),
           Expanded(flex: 3, child: _txtwalkPoint),
           Expanded(
               flex: 1,
@@ -497,16 +497,16 @@ class _homeTab extends State<homeTab> {
           //   child: new Icon(Icons.my_location_rounded),
           // ),
           Expanded(
-            flex: 9,
-            child:FlatButton(
-              child: new Text(currentAdrressButton),
-              color: Colors.green,
-              onPressed: () {
-                _getAddress();
-                currentAdrressButton = _currentAddress;
-                _getCurrentLocation();
-              },
-            )
+              flex: 9,
+              child:FlatButton(
+                child: new Text(currentAdrressButton),
+                color: Colors.green,
+                onPressed: () {
+                  _getAddress();
+                  currentAdrressButton = _currentAddress;
+                  _getCurrentLocation();
+                },
+              )
           ),
         ],
       ),
@@ -622,170 +622,170 @@ class _homeTab extends State<homeTab> {
       ),
     );
     return Container(
-    child: new Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'MishimaWalk',
-          style: TextStyle(color: Colors.black),
+      child: new Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            'MishimaWalk',
+            style: TextStyle(color: Colors.black),
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: new Column(children: <Widget>[
-        Expanded(
-          child: Column(
-            children: <Widget>[
-              _DayMonth,
-              walkPint,
-              new Container(
-                child: CurentLocation,
-              ),
-              Transfer,
-              new Container(
-                // margin: new EdgeInsets.only(left: 20.0, right: 20.0,top: 5.0),
-                // decoration: new BoxDecoration(
-                //     color: new Color.fromARGB(255, 240, 240, 240),
-                //     border: new Border.all(width: 1.2,color: Colors.black12),
-                //     borderRadius: const BorderRadius.all(const Radius.circular(10.0))
-                // ),
-                child: TargetLocation,
-              ),
-              Rout,
-              Condition,
-              new Container(
-                margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 2.0),
-                child: new Row(
-                  children: <Widget>[
-                    new Expanded(
-                      child: new ElevatedButton(
-                        onPressed: (_startAddress != '' &&
-                            _destinationAddress != '')
-                            ? () async {
-                          _showModal();
-                          // startAddressFocusNode.unfocus();
-                          desrinationAddressFocusNode.unfocus();
-                          setState(() {
-                            if (markers.isNotEmpty) markers.clear();
-                            if (polylines.isNotEmpty)
-                              polylines.clear();
-                            if (polylineCoordinates.isNotEmpty)
-                              polylineCoordinates.clear();
-                            _placeDistance = null;
-                          });
+        body: new Column(children: <Widget>[
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                _DayMonth,
+                walkPint,
+                new Container(
+                  child: CurentLocation,
+                ),
+                Transfer,
+                new Container(
+                  // margin: new EdgeInsets.only(left: 20.0, right: 20.0,top: 5.0),
+                  // decoration: new BoxDecoration(
+                  //     color: new Color.fromARGB(255, 240, 240, 240),
+                  //     border: new Border.all(width: 1.2,color: Colors.black12),
+                  //     borderRadius: const BorderRadius.all(const Radius.circular(10.0))
+                  // ),
+                  child: TargetLocation,
+                ),
+                Rout,
+                Condition,
+                new Container(
+                  margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 2.0),
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new ElevatedButton(
+                          onPressed: (_startAddress != '' &&
+                              _destinationAddress != '')
+                              ? () async {
+                            _showModal();
+                            // startAddressFocusNode.unfocus();
+                            desrinationAddressFocusNode.unfocus();
+                            setState(() {
+                              if (markers.isNotEmpty) markers.clear();
+                              if (polylines.isNotEmpty)
+                                polylines.clear();
+                              if (polylineCoordinates.isNotEmpty)
+                                polylineCoordinates.clear();
+                              _placeDistance = null;
+                            });
 
-                          _calculateDistance().then((isCalculated) {
-                            if (isCalculated) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Distance Calculated Sucessfully'),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Error Calculating Distance'),
-                                ),
-                              );
-                            }
-                          });
-                        }
-                            : null,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'ルート検索'.toUpperCase(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
+                            _calculateDistance().then((isCalculated) {
+                              if (isCalculated) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Distance Calculated Sucessfully'),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Error Calculating Distance'),
+                                  ),
+                                );
+                              }
+                            });
+                          }
+                              : null,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'ルート検索'.toUpperCase(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                              ),
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        // Container(
-        //     height: 40,
-        //     color: Colors.grey
-        // ),
-        Expanded(
-          child: Container(
-            height: height,
-            width: width,
-            child:
-            Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: Stack(
-                children: <Widget>[
-                  GoogleMap(
-                    markers: Set<Marker>.from(markers),
-                    initialCameraPosition: _initialLocation,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                    mapType: MapType.normal,
-                    zoomGesturesEnabled: true,
-                    zoomControlsEnabled: false,
-                    polylines: Set<Polyline>.of(polylines.values),
-                    onMapCreated: (GoogleMapController controller) {
-                      mapController = controller;
-                    },
+                      )
+                    ],
                   ),
-                  SafeArea(
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
-                        child: ClipOval(
-                          child: Material(
-                            color: Colors.orange.shade100, // button color
-                            child: InkWell(
-                              splashColor: Colors.orange, // inkwell color
-                              child: SizedBox(
-                                width: 56,
-                                height: 56,
-                                child: Icon(Icons.my_location),
-                              ),
-                              onTap: () {
-                                mapController.animateCamera(
-                                  CameraUpdate.newCameraPosition(
-                                    CameraPosition(
-                                      target: LatLng(
-                                        _currentPosition.latitude,
-                                        _currentPosition.longitude,
+                ),
+              ],
+            ),
+          ),
+          // Container(
+          //     height: 40,
+          //     color: Colors.grey
+          // ),
+          Expanded(
+            child: Container(
+              height: height,
+              width: width,
+              child:
+              Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: Stack(
+                  children: <Widget>[
+                    GoogleMap(
+                      markers: Set<Marker>.from(markers),
+                      initialCameraPosition: _initialLocation,
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: false,
+                      mapType: MapType.normal,
+                      zoomGesturesEnabled: true,
+                      zoomControlsEnabled: false,
+                      polylines: Set<Polyline>.of(polylines.values),
+                      onMapCreated: (GoogleMapController controller) {
+                        mapController = controller;
+                      },
+                    ),
+                    SafeArea(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+                          child: ClipOval(
+                            child: Material(
+                              color: Colors.orange.shade100, // button color
+                              child: InkWell(
+                                splashColor: Colors.orange, // inkwell color
+                                child: SizedBox(
+                                  width: 56,
+                                  height: 56,
+                                  child: Icon(Icons.my_location),
+                                ),
+                                onTap: () {
+                                  mapController.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                        target: LatLng(
+                                          _currentPosition.latitude,
+                                          _currentPosition.longitude,
+                                        ),
+                                        zoom: 18.0,
                                       ),
-                                      zoom: 18.0,
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ]),
-    ),
+        ]),
+      ),
     );
   }
 }

@@ -1,18 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hakathon/ranking/rankingtbl.dart';
+import 'package:hakathon/db/database_helper.dart';
+import 'package:hakathon/tabbar/ranking.dart';
 
 List<Rankings> getRankings() {
   List<Rankings> items = <Rankings>[];
-
   items.add(Rankings("三谷様", "すごい！！！", 2000, "shop_icon.png"));
   items.add(Rankings("ルック様", "頑張る", 2500, "shop_icon.png"));
   items.add(Rankings("池田様", "お疲れ様です。", 1000, "shop_icon.png"));
   items.add(Rankings("林様", "ファイア", 900, "shop_icon.png"));
   items.add(Rankings("山田様", "いい天気ですね", 200, "shop_icon.png"));
   items.add(Rankings("樋高田様", "焼肉を食べたい", 150, "shop_icon.png"));
+
   items.sort((a, b) => b.point.compareTo(a.point));
+
   return items;
+}
+
+void _refreshJournals() async {
+  final allRankings = await SQLHelper.getRankings();
+  // items.addAll(allRankings);
 }
 
 class RatingBox extends StatefulWidget {
@@ -202,31 +210,112 @@ class RankingsBox extends StatelessWidget {
   }
 }
 
-class RankingRankings extends StatelessWidget {
-  RankingRankings({Key? key, required this.title}) : super(key: key);
-  final String title;
+class RankingRankings extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _RankingRankings();
+  }
+}
+
+List<Rankings> itemsSearch = <Rankings>[];
+
+class _RankingRankings extends State<RankingRankings> {
+  // TODO: implement setState
+  TextEditingController controller = new TextEditingController();
+  // Get json result and convert it to model. Then add
+
   final items = getRankings();
+  Future<Null> getUserDetails() async {
+    setState(() {
+      itemsSearch.clear();
+      itemsSearch.addAll(items);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getUserDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("ranking")),
-        body: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              child: RankingsBox(item: items[index], index: index + 1),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RankingPage(item: items[index]),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'MishimaWalk',
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+      ),
+      body: new Column(
+        children: <Widget>[
+          new Container(
+            color: Colors.blue.shade50,
+            child: new Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: new Card(
+                child: new ListTile(
+                  leading: new Icon(Icons.search),
+                  title: new TextField(
+                    controller: controller,
+                    decoration: new InputDecoration(
+                        hintText: '検索', border: InputBorder.none),
+                    onChanged: onSearchTextChanged,
                   ),
-                );
-              },
-            );
-          },
-        ));
+                  trailing: new IconButton(
+                    icon: new Icon(Icons.cancel),
+                    onPressed: () {
+                      controller.clear();
+                      onSearchTextChanged('');
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          new Expanded(
+              child: ListView.builder(
+            itemCount: itemsSearch.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                child: RankingsBox(item: itemsSearch[index], index: index + 1),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          RankingPage(item: itemsSearch[index]),
+                    ),
+                  );
+                },
+              );
+            },
+          ))
+        ],
+      ),
+    );
+  }
+
+  onSearchTextChanged(String text) async {
+    itemsSearch.clear();
+    if (text.isEmpty) {
+      itemsSearch.addAll(items);
+      setState(() {});
+      return;
+    }
+    items.forEach((item) {
+      if (item.name.contains(text) ||
+          item.description.contains(text) ||
+          item.point.toString().contains(text)) {
+        itemsSearch.add(item);
+      }
+    });
+    // print(items);
+    // print("----------");
+    setState(() {});
   }
 }
 
