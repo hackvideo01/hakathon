@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hakathon/tabbar/ranking.dart';
 import 'tabbar/homeTab.dart';
-import 'tabbar/myPage.dart';
+import 'package:hakathon/mypage/mypage.dart';
 import 'tabbar/quest.dart';
 import 'tabbar/timeLine.dart';
 import 'ranking/ranking.dart';
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
               new homeTab(),
               new timeLine(),
               new quest(),
-              new RankingRankings(title: "MishimaWalk"),
+              new RankingRankings(),
               new payment(),
               new myPage(),
             ],

@@ -40,6 +40,7 @@ dependencies:
   geocoding: ^2.0.1
 
   intl: ^0.17.0
+  syncfusion_flutter_gauges: ^19.3.48
 
   flutter_localizations:
     sdk: flutter

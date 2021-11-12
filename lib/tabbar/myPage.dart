@@ -10,21 +10,20 @@ class myPage extends StatefulWidget {
 }
 
 class _myPage extends State<myPage> {
-
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'マイページ',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
-      body:Center(
-        child: new Image.asset('images/login-image.png',
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   title: Text(
+      //     'マイページ',
+      //     style: TextStyle(color: Colors.black),
+      //   ),
+      //   centerTitle: true,
+      // ),
+      body: Center(
+        child: new Image.asset(
+          'images/login-image.png',
           fit: BoxFit.cover,
           height: double.infinity,
           width: double.infinity,
