@@ -1,9 +1,13 @@
+import 'dart:async';
+import 'package:hakathon/secrets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:address_search_field/address_search_field.dart';
+
 
 import 'dart:math' show cos, sqrt, asin;
 
@@ -31,17 +35,6 @@ class _homeTab extends State<homeTab> {
         ),
   );
 
-  final TextField _txtCurentLocation = new TextField(
-    decoration: new InputDecoration(
-      hintText: "現在地",
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.green,
-        ),
-      ),
-    ),
-  );
-
   final TextField _txtTargetLocation = new TextField(
     decoration: new InputDecoration(
       hintText: "目的地　未設定",
@@ -55,72 +48,42 @@ class _homeTab extends State<homeTab> {
   );
 
   final backColor = Colors.white;
-  late GoogleMapController mapController;
+
+  bool _flag = true;
 
   final LatLng _center = const LatLng(35.11065656736633, 138.91525592742352);
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-  bool _flag = true;
-  final Geolocator _geolocator = Geolocator();
-// For storing the current position
-  Position _currentPosition = Position(latitude: 0.0, longitude: 0.0);
+  CameraPosition _initialLocation = CameraPosition(target: LatLng(35.11065656736633, 138.91525592742352),zoom: 18.0,);
+  late GoogleMapController mapController;
 
-  LatLng _kMapCenter1 = LatLng(0.0, 0.0);
-  // Method for retrieving the current location
-  _getCurrentLocation() async {
-    await _geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) async {
-      setState(() {
-        // Store the position in the variable
-        _currentPosition = position;
-
-        print('CURRENT POS: $_currentPosition');
-        _kMapCenter1 = LatLng(position.latitude,position.longitude);
-        // For moving the camera to current location
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(position.latitude, position.longitude),
-              zoom: 18.0,
-            ),
-          ),
-        );
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  Set<Marker> _createMarker() {
-    return {
-      Marker(
-        markerId: MarkerId("marker_1"),
-        position: _kMapCenter1,
-      ),
-    };
-  }
-  String _startAddress = '';
-  String _destinationAddress = '';
-  String? _placeDistance;
-  Set<Marker> markers = {};
+  late Position _currentPosition;
   String _currentAddress = '';
+
   final startAddressController = TextEditingController();
   final destinationAddressController = TextEditingController();
 
-  late PolylinePoints polylinePoints;
+  // final startAddressFocusNode = FocusNode();
+  final desrinationAddressFocusNode = FocusNode();
+
+  String _startAddress = '';
+  String _destinationAddress = '';
+  String? _placeDistance;
+
+  Set<Marker> markers = {};
+
+  PolylinePoints polylinePoints = new PolylinePoints();
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Widget _textField({
     required TextEditingController controller,
+    required FocusNode focusNode,
     required String label,
     required String hint,
     required double width,
-    // required Icon prefixIcon,
+    required Icon prefixIcon,
     Widget? suffixIcon,
     required Function(String) locationCallback,
   }) {
@@ -131,8 +94,9 @@ class _homeTab extends State<homeTab> {
           locationCallback(value);
         },
         controller: controller,
+        focusNode: focusNode,
         decoration: new InputDecoration(
-          // prefixIcon: prefixIcon,
+          prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           labelText: label,
           filled: true,
@@ -162,6 +126,28 @@ class _homeTab extends State<homeTab> {
     );
   }
 
+  // Method for retrieving the current location
+  _getCurrentLocation() async {
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async {
+      setState(() {
+        _currentPosition = position;
+        print('CURRENT POS: $_currentPosition');
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(position.latitude, position.longitude),
+              zoom: 18.0,
+            ),
+          ),
+        );
+      });
+      await _getAddress();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   // Method for retrieving the address
   _getAddress() async {
     try {
@@ -172,7 +158,7 @@ class _homeTab extends State<homeTab> {
 
       setState(() {
         _currentAddress =
-        "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
+        " ${place.country}, ${place.postalCode}, ${place.locality},${place.name}";
         startAddressController.text = _currentAddress;
         _startAddress = _currentAddress;
       });
@@ -180,6 +166,7 @@ class _homeTab extends State<homeTab> {
       print(e);
     }
   }
+
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
@@ -329,10 +316,12 @@ class _homeTab extends State<homeTab> {
       ) async {
     polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyBqVs5DU4Nm_m7wDBK894Bui6-mfmQ2xbo", // Google Maps API Key
+      Secrets.API_KEY, // Google Maps API Key
       PointLatLng(startLatitude, startLongitude),
       PointLatLng(destinationLatitude, destinationLongitude),
-      travelMode: TravelMode.transit,
+      // travelMode: TravelMode.transit,
+      travelMode: TravelMode.driving,
+      wayPoints: [PolylineWayPoint(location: "$startLatitude,$destinationLongitude")],
     );
 
     if (result.points.isNotEmpty) {
@@ -350,14 +339,84 @@ class _homeTab extends State<homeTab> {
     );
     polylines[id] = polyline;
   }
+  String currentAdrressButton = "現在地";
+  void _showModal() {
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return new Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              new ListTile(
+                // leading: new Icon(Icons.music_note),
+                title: new ElevatedButton(
+                  onPressed: () {},
+                  child: Row(
+                    children: [
+                      Text(
+                        '最短ルート',
+                      ),
+                      new Icon(Icons.attach_money),
+                    ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(360, 120),
+                      primary: Colors.amber,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+                  ),
+                ),
+              ),
+              new ListTile(
+                // leading: new Icon(Icons.photo_album),
+                title: new ElevatedButton(
+                  onPressed: () {},
+                  child: Row(
+                    children: [
+                      Text(
+                        '満喫ルート',
+                      ),
+                      new Icon(Icons.attach_money),
+                    ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(360, 120),
+                      primary: Colors.amber,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+                  ),
+                ),
+              ),
+              new ListTile(
+                // leading: new Icon(Icons.videocam),
+                title: new ElevatedButton(
+                  onPressed: () {},
+                  child: Row(
+                    children: [
+                      Text(
+                        '満喫ルート　2！',
+                      ),
+                      new Icon(Icons.attach_money),
+                    ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(360, 120),
+                      primary: Colors.amber,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+    );
+  }
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
   }
-
   @override
   Widget build(BuildContext context) {
+    (_placeDistance==null)?_placeDistance="0.0":_placeDistance=_placeDistance;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     Widget _DayMonth = new Container(
@@ -368,11 +427,11 @@ class _homeTab extends State<homeTab> {
     Widget walkPint = new Container(
       child: new Row(
         children: <Widget>[
-          Expanded(flex: 3, child: _txtwalk),
+          Expanded(flex: 3, child: Text("$_placeDistance",style: TextStyle(decoration: TextDecoration.underline),)),
           Expanded(
               flex: 1,
               child:
-                  new Text("歩", style: TextStyle(fontWeight: FontWeight.bold))),
+                  new Text("km", style: TextStyle(fontWeight: FontWeight.bold))),
           Expanded(flex: 3, child: _txtwalkPoint),
           Expanded(
               flex: 1,
@@ -381,7 +440,10 @@ class _homeTab extends State<homeTab> {
           Expanded(
               flex: 2,
               child: new ElevatedButton(
-                onPressed: () => setState(() => _flag = !_flag),
+                // onPressed: () => setState(() => _flag = !_flag),
+                onPressed: () {
+                  _showModal();
+                },
                 child: Text("交換"),
                 style: ElevatedButton.styleFrom(
                   shape: new RoundedRectangleBorder(
@@ -437,9 +499,11 @@ class _homeTab extends State<homeTab> {
           Expanded(
             flex: 9,
             child:FlatButton(
-              child: new Text("現在地"),
+              child: new Text(currentAdrressButton),
               color: Colors.green,
               onPressed: () {
+                _getAddress();
+                currentAdrressButton = _currentAddress;
                 _getCurrentLocation();
               },
             )
@@ -462,8 +526,9 @@ class _homeTab extends State<homeTab> {
             _textField(
                 label: '目的地未設定',
                 hint: 'Choose destination',
-                // prefixIcon: Icon(Icons.looks_two),
+                prefixIcon: Icon(Icons.looks_two),
                 controller: destinationAddressController,
+                focusNode: desrinationAddressFocusNode,
                 width: width,
                 locationCallback: (String value) {
                   setState(() {
@@ -594,18 +659,57 @@ class _homeTab extends State<homeTab> {
                   children: <Widget>[
                     new Expanded(
                       child: new ElevatedButton(
-                        onPressed: () {
-                          _getAddress();
-                        },
-                        child: Text("ルート検索"),
-                        // child: new Text( _currentAddress),
-                        style: ElevatedButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
+                        onPressed: (_startAddress != '' &&
+                            _destinationAddress != '')
+                            ? () async {
+                          _showModal();
+                          // startAddressFocusNode.unfocus();
+                          desrinationAddressFocusNode.unfocus();
+                          setState(() {
+                            if (markers.isNotEmpty) markers.clear();
+                            if (polylines.isNotEmpty)
+                              polylines.clear();
+                            if (polylineCoordinates.isNotEmpty)
+                              polylineCoordinates.clear();
+                            _placeDistance = null;
+                          });
+
+                          _calculateDistance().then((isCalculated) {
+                            if (isCalculated) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Distance Calculated Sucessfully'),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Error Calculating Distance'),
+                                ),
+                              );
+                            }
+                          });
+                        }
+                            : null,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'ルート検索'.toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
                           ),
-                          primary: _flag
-                              ? Colors.red
-                              : Color(0x0C547B), // This is what you need!
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                         ),
                       ),
                     )
@@ -629,16 +733,50 @@ class _homeTab extends State<homeTab> {
               body: Stack(
                 children: <Widget>[
                   GoogleMap(
-                    markers: _createMarker(),
-                    onMapCreated: _onMapCreated,
+                    markers: Set<Marker>.from(markers),
+                    initialCameraPosition: _initialLocation,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
+                    mapType: MapType.normal,
                     zoomGesturesEnabled: true,
                     zoomControlsEnabled: false,
                     polylines: Set<Polyline>.of(polylines.values),
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 18.0,
+                    onMapCreated: (GoogleMapController controller) {
+                      mapController = controller;
+                    },
+                  ),
+                  SafeArea(
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+                        child: ClipOval(
+                          child: Material(
+                            color: Colors.orange.shade100, // button color
+                            child: InkWell(
+                              splashColor: Colors.orange, // inkwell color
+                              child: SizedBox(
+                                width: 56,
+                                height: 56,
+                                child: Icon(Icons.my_location),
+                              ),
+                              onTap: () {
+                                mapController.animateCamera(
+                                  CameraUpdate.newCameraPosition(
+                                    CameraPosition(
+                                      target: LatLng(
+                                        _currentPosition.latitude,
+                                        _currentPosition.longitude,
+                                      ),
+                                      zoom: 18.0,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

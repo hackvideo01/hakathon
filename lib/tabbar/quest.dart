@@ -10,33 +10,117 @@ class quest extends StatefulWidget {
 }
 
 class _quest extends State<quest> {
-
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
           'クエスト',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
-      body: new Column(children: <Widget>[
-        Expanded(
-          child: Column(
-            children: <Widget>[
-
+      body: new ListView(children: <Widget>[
+        new Container(
+          child: new Column(
+            children: [
+              new Container(
+                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    'チュートリアルクエスト',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(360, 80),
+                      primary: Colors.amber,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-        // Container(
-        //     height: 40,
-        //     color: Colors.grey
-        // ),
-        Expanded(
-          child: Text("クエスト"),
+        new Container(
+          child: new Column(
+            children: [
+              new Container(
+                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    '満喫ルート',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(360, 80),
+                      primary: Colors.amberAccent,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        new Container(
+          child: new Column(
+            children: [
+              new Container(
+                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    '今季限定企画',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(360, 80),
+                      primary: Colors.blueAccent,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        new Container(
+          child: new Column(
+            children: [
+              new Container(
+                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    '今季限定',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(360, 80),
+                      primary: Colors.green,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        new Container(
+          child: new Column(
+            children: [
+              new Container(
+                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    'うなぎをたべろ！',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(360, 120),
+                      primary: Colors.red,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ]),
     );
