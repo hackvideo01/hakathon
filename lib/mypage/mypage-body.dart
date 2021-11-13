@@ -52,6 +52,29 @@ class MypageBody extends StatelessWidget {
           ),
         ),
         GaugeEclip(),
+        new Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                // padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Text("12,00歩/25,000歩",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    )),
+              ),
+            ),
+            // Text("クーポン交換履歴",
+            //     style: TextStyle(
+            //       fontSize: 18,
+            //       fontWeight: FontWeight.bold,
+            //       color: Colors.orange[700],
+            //     )),
+          ],
+        ),
       ],
     );
   }
@@ -69,7 +92,7 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("images/kupon.png"),
+            backgroundImage: AssetImage("images/avata.png"),
           ),
           // Positioned(
           //   child: SizedBox(
@@ -90,23 +113,23 @@ class GaugeEclip extends StatelessWidget {
   // const GaugeEclip({
   //   Key? key,
   // }) : super(key: key);
-  double _volumeValue = 1500;
+  double _volumeValue = 40;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: new EdgeInsets.all(5),
-        padding: new EdgeInsets.all(5),
+        margin: new EdgeInsets.all(0),
+        padding: new EdgeInsets.all(0),
         child: SfRadialGauge(
           axes: <RadialAxis>[
             RadialAxis(
                 minimum: 0,
-                maximum: 25000,
+                maximum: 100,
                 showLabels: false,
                 showTicks: false,
                 axisLineStyle: AxisLineStyle(
                   cornerStyle: CornerStyle.bothFlat,
-                  color: Colors.black38,
+                  color: Colors.yellowAccent[50],
                   thickness: 60,
                 ),
                 // minimum: 0,
